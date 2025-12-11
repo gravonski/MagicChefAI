@@ -1,16 +1,15 @@
 package dev.java10x.MagicChefAI.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Repository
+@Entity
 @Table(name = "food_item")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class FoodItem {
     private String nome;
     private String categoria;
     private Integer quantidade;
-    private LocalDateTime validade;
+    private LocalDate validade;
 
 
     public Long getId() {
@@ -57,11 +56,11 @@ public class FoodItem {
         this.quantidade = quantidade;
     }
 
-    public LocalDateTime getValidade() {
+    public LocalDate getValidade() {
         return validade;
     }
 
-    public void setValidade(LocalDateTime validade) {
+    public void setValidade(LocalDate validade) {
         this.validade = validade;
     }
 
