@@ -3,6 +3,7 @@ package dev.java10x.MagicChefAI.controller;
 import dev.java10x.MagicChefAI.service.ChatGptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -16,6 +17,7 @@ public class RecipeController {
         this.chatGptService = chatGptService;
     }
 
+    @GetMapping("/generate")
     public Mono<ResponseEntity<String>> generateRecipe(int id) {
         return chatGptService.generateRecipe();
     }
