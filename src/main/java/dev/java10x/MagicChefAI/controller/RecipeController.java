@@ -18,7 +18,9 @@ public class RecipeController {
     }
 
     @GetMapping("/generate")
-    public Mono<ResponseEntity<String>> generateRecipe(int id) {
-        return chatGptService.generateRecipe();
+    public Mono<ResponseEntity<String>> generateRecipe(Long id) {
+        return chatGptService.generateRecipe()
+                .map(recipe -> ResponseEntity.ok(recipe))
+                .defaultIfEmpty(ResponseEntity.noContent().build());
     }
 }
