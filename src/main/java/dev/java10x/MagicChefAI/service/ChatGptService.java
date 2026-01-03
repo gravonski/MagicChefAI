@@ -1,5 +1,6 @@
 package dev.java10x.MagicChefAI.service;
 
+import dev.java10x.MagicChefAI.model.FoodItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatGptService {
@@ -22,8 +24,15 @@ public class ChatGptService {
         this.webClient = webClient;
     }
 
-    public Mono<String> generateRecipe() {
-        String prompt = "Sugira-me receitas simples com ingredientes comuns para o usuário que é intolerante a gluten: ";
+    public Mono<String> generateRecipe(List<FoodItem> foodItems) {
+
+        String alimentos = foodItems.stream()
+                .map(item -> String.format("%s (%s) - Quantidade: %d, Validade: %s",
+                item.getNome(),item.getCategoria(), item.getQuantidade(), item.getValidade()))
+                .collect(Collectors.joining("\n"));
+                ;
+
+        String prompt = "Com base no meu banco de dados me sugira uma receita com os seguinte itens, levando em conta a data de validade:\n " + alimentos;
 
         return webClient.post()
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
